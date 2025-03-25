@@ -1,0 +1,49 @@
+/* Chatbox Styles */
+.chatbox {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.output-display {
+  width: 100%; /* Ensure it takes up the available width */
+  max-width: 600px; /* Set a maximum width to prevent it from going too wide */
+  height: 300px; /* Set a fixed height for the output area (adjust as needed) */
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  white-space: pre-wrap; /* Preserve whitespace and wrap text to avoid overflow */
+  word-wrap: break-word; /* Break long words to prevent them from overflowing */
+  border: 1px solid #ccc; /* Optional: border around the output */
+  padding: 10px; /* Optional: padding inside the output display */
+  background-color: #f9f9f9; /* Optional: background color */
+  font-family: 'Courier New', monospace; /* Optional: monospace font for code-like text */
+}
+
+@media (max-width: 768px) {
+  .chatbox {
+    height: auto;
+  }
+
+  .chat-box {
+    width: 100%;
+    max-width: 400px; /* Reduce width for smaller screens */
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+
+  .output-display {
+    max-width: 100%; /* Ensure it takes the full width in smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-box {
+    width: 100%;
+    max-width: 350px; /* Even smaller width for very small screens */
+  }
+  .input-container input {
+    font-size: 14px; /* Adjust font size for small devices */
+  }
+}

@@ -1,0 +1,256 @@
+/* General Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+#root {
+  height: 100%;
+}
+
+.app {
+  display: flex;
+  height: 100%;
+}
+
+/* Header Styles */
+.header {
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #000000; /* Dark background */
+  color: #fff;
+  padding: 20px;
+  position: fixed;
+  top: 0; /* Move the sidebar to the top */
+  left: 0;
+  bottom: 0; /* Extend it all the way down */
+  z-index: 100;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, padding-left 0.2s ease;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.sidebar li:hover {
+  background-color: #4a5568; /* Darker background on hover */
+  padding-left: 15px; /* Indent on hover */
+}
+
+.sidebar li.active {
+  background-color: #3498db; /* Blue background for active items */
+  padding-left: 15px;
+}
+
+.sidebar li.active:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.sidebar .history-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.sidebar .history-item {
+  font-size: 16px;
+  color: #d1d5db;
+  padding: 10px 0;
+  transition: color 0.3s ease;
+}
+
+.sidebar .history-item:hover {
+  color: #fff;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  display: flex;
+  background-color: #212121;
+  flex-direction: column;
+  padding: 80px 20px 20px 270px; /* Adjust padding for header and sidebar */
+  overflow: hidden;
+  margin-left: 50px; /* Match sidebar width */
+}
+
+/* Output Display Styles */
+.output-display {
+  flex: 1;
+  padding: 20px;
+  margin-bottom: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+.output-display pre {
+  word-wrap: break-word;
+  margin: 0;
+  font-size: 16px;
+  color: white; /* Full white text color */
+  line-height: 1.6;
+  outline: none; /* Remove outline */
+  border: none; /* Remove border */
+}
+
+/* Typing Animation */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #000;
+  }
+}
+
+.typing-animation {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 1.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+/* Prompt Input Styles */
+.prompt-input {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: #2f2f2f;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* You can adjust the max width as needed */
+  margin: 20px auto; /* Center the input field */
+}
+
+.prompt-input input {
+  flex: 1;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: 1px;
+  background-color: #2f2f2f;
+  color: white;
+  outline: none;
+  height: 50px;
+}
+
+.prompt-input button {
+  padding: 12px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color 0.3s ease;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.prompt-input button:hover {
+  background-color: black; /* Light blue background on hover */
+}
+
+.prompt-input button i {
+  font-size: 24px;
+}
+
+/* Optional: Add media query for responsive design */
+@media (max-width: 600px) {
+  .prompt-input {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .prompt-input input {
+    width: 100%;
+  }
+
+  .prompt-input button {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: 200px;
+    position: static;
+  }
+
+  .main-content {
+    padding: 80px 10px 10px 10px;
+    margin-left: 0; /* Reset margin for mobile */
+  }
+
+  .output-display {
+    margin-bottom: 10px;
+  }
+
+  .prompt-input {
+    flex-direction: column;
+  }
+
+  .prompt-input input {
+    width: 100%;
+  }
+
+  .prompt-input button {
+    width: 100%;
+  }
+}
