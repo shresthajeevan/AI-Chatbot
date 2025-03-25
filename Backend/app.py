@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Set your Hugging Face API key here or load it from an environment variable
-HF_API_KEY = os.getenv("HF_API_KEY", "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")  # Replace with your actual Hugging Face API key
+HF_API_KEY = os.getenv("HF_API_KEY", "api_key")  # Replace with your actual Hugging Face API key
 
 @app.route("/api/chat", methods=["POST"])
 def chat():
