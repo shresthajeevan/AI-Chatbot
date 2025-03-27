@@ -7,7 +7,7 @@ app.use(cors());  // Enable CORS for all routes
 app.use(express.json());
 
 // Set your actual Gemini API key here
-const GEMINI_API_KEY = 'AIzaSyCJLtn4I2e0_Czkyx-qp7vf8mS7jE_lbi8';  // Replace with your actual API key
+const GEMINI_API_KEY = 'YOUR_API_KEY';  // Replace with your actual API key
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${GEMINI_API_KEY}`;
 
 app.post('/api/chat', async (req, res) => {
