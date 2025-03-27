@@ -5,10 +5,13 @@ const OutputDisplay = ({ output }) => {
   const outputRef = useRef(null);
 
   useEffect(() => {
+    // Ensure output is a string
+    const responseText = output || ''; 
     let currentIndex = 0;
+
     const interval = setInterval(() => {
-      if (currentIndex <= output.length) {
-        setDisplayedOutput(output.slice(0, currentIndex));
+      if (currentIndex <= responseText.length) {
+        setDisplayedOutput(responseText.slice(0, currentIndex));
         currentIndex++;
       } else {
         clearInterval(interval);
@@ -16,9 +19,9 @@ const OutputDisplay = ({ output }) => {
     }, 25); // Smooth typing animation
 
     return () => clearInterval(interval);
-  }, [output]);
+  }, [output]); // Depend on the output prop
 
-  // Auto-scroll to bottom on new output
+  // Auto-scroll to bottom when new output is displayed
   useEffect(() => {
     if (outputRef.current) {
       outputRef.current.scrollTop = outputRef.current.scrollHeight;

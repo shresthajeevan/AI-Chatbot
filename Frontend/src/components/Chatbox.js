@@ -2,62 +2,82 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Chatbox.css';
 
+
 const Chatbox = () => {
   const [query, setQuery] = useState('');
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  // Hugging Face API key
-  const HF_API_KEY = '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';  // Replace with your Hugging Face API key
-
-  // Send Query to Hugging Face API
   const sendQuery = async () => {
-    if (!query.trim()) return;
+    if (!query.trim()) {
+      setError('Please enter a question');
+      return;
+    }
 
-    setIsLoading(true); // Set loading to true
-
+    setIsLoading(true);
+    setError('');
+    
     try {
-      // Hugging Face API endpoint for a model (adjust based on the model you're using)
-      const endpoint = 'https://api-inference.huggingface.co/models/gpt2'; // Replace with the desired model endpoint
+      const res = await axios.post('http://localhost:5000/api/chat', {
+        contents: [{
+          parts: [{ text: query }]
+        }]
+      }, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 10000 // 10 second timeout
+      });
 
-      const res = await axios.post(
-        endpoint,
-        {
-          inputs: query, // Send the query as input to the model
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${HF_API_KEY}`, // Bearer token for authorization
-          },
-        }
-      );
-
-      // Extract and set the response from Hugging Face API
-      setResponse(res.data[0]?.generated_text || 'No response from model');
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setResponse('Error fetching data. Please try again.');
+      setResponse(res.data?.response || 'No response generated');
+    } catch (err) {
+      console.error('API Error:', err);
+      setError(err.response?.data?.error || 
+              err.message || 
+              'Failed to get response');
     } finally {
-      setIsLoading(false); // Set loading to false after the request is complete
+      setIsLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !isLoading) {
+      sendQuery();
     }
   };
 
   return (
     <div className="chat-container">
       <div className="chat-box">
-        <h1>🌍 AI Country Chatbot (Hugging Face API)</h1>
+        <h1>🌍 AI Country Chatbot (Gemini API)</h1>
+        
         <div className="input-container">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Ask me anything..."
+            disabled={isLoading}
+            aria-busy={isLoading}
           />
-          <button onClick={sendQuery}>Ask</button>
+          <button 
+            onClick={sendQuery} 
+            disabled={isLoading}
+            aria-label={isLoading ? 'Processing' : 'Submit question'}
+          >
+            {isLoading ? '✈️ Sending...' : 'Ask'}
+          </button>
         </div>
+
+        {error && <div className="error-message">{error}</div>}
+
         <div className="response-box">
           <h3>Response:</h3>
-          {isLoading ? <p>Loading...</p> : <p>{response || 'Type a query to get started!'}</p>}
+          {isLoading ? (
+            <div className="loading-indicator">Thinking...</div>
+          ) : (
+            <p>{response || 'Type a query to get started!'}</p>
+          )}
         </div>
       </div>
     </div>
