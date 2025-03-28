@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Chatbox.css';
+import './styles/chatbox.css'; // If the CSS file is in a 'styles' folder
+
+
 
 
 const Chatbox = () => {

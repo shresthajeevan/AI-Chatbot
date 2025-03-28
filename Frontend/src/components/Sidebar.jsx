@@ -6,10 +6,9 @@ const Sidebar = ({ history, onHistoryItemClick }) => {
       <h3>History</h3>
       <ul>
         {history.map((item, index) => (
-          <li key={index} onClick={() => onHistoryItemClick(item.query)}>
+          <li key={index} onClick={() => onHistoryItemClick(item.query)} className="history-item">
             {/* Display the query and response */}
-            <div><strong></strong> {item.query}</div>
-            
+            <div><strong></strong>{item.query}</div>
           </li>
         ))}
       </ul>

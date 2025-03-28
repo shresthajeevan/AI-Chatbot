@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { FaPaperclip, FaArrowUp } from "react-icons/fa";
 
 const PromptInput = ({ onSubmit, disabled }) => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!input.trim()) return;
     onSubmit(input);
-    setInput('');
+    setInput("");
   };
 
   return (
     <form className="prompt-input" onSubmit={handleSubmit}>
+      {/* Attachment Icon */}
+      <button type="button" className="attachment-btn">
+        <FaPaperclip />
+      </button>
+
+      {/* Input Field */}
       <input
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="Type your query here..."
-        required
+        placeholder="Ask anything..."
         disabled={disabled}
       />
+
+      {/* Send Button */}
       <button type="submit" className="send-btn" disabled={disabled}>
-        <i className="fas fa-paper-plane"></i> {/* FontAwesome paper plane icon */}
+        <FaArrowUp />
       </button>
     </form>
   );
