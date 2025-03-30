@@ -12,6 +12,8 @@ html, body {
   background-color: #f7f7f7;
   color: #333;
   height: 100%;
+  line-height: 2; /* Increased line spacing */
+  text-align: justify; /* Text alignment set to justify */
 }
 
 #root {
@@ -22,56 +24,47 @@ html, body {
 .app {
   display: flex;
   height: 100%;
+  position: relative;
 }
 
-/* Sidebar */
-.sidebar {
-  width: 250px;
-  background-color: #F9F9F9;
-  padding: 30px 20px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-}
 
-.sidebar h3 {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #3F3F46;
-}
 
-.sidebar .history-item {
+/* History Item */
+.history-item {
   font-size: 16px;
   color: #272727;
   padding: 10px 15px;
-  list-style: none; /* Removes bullet points */
-  display: block; /* Ensures it takes full width */
-  cursor: pointer; /* Makes it clickable */
-  border-radius: 5px; /* Optional: rounded corners */
-  transition: background-color 0.3s ease; /* Smooth hover effect */
+  list-style: none;
+  display: block;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 5px;
 }
 
-.sidebar .history-item:hover {
-  background-color: #E3E3E3; /* Background color change on hover */
+.history-item:hover {
+  background-color: #E3E3E3;
 }
 
-
-/* Main Content */
+/* Main Content with Collapse Support */
 .main-content {
   flex: 1;
   margin-left: 250px;
-  background-color: #FFFFFF;
-  padding: 100px 20px 20px;
+  padding: 80px 20px 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+  font-size: 18px; /* Increased font size */
+  /* Removed background color */
 }
 
-/* Header */
+.sidebar.collapsed ~ .main-content {
+  margin-left: 0;
+}
+
+/* Header with Collapse Support */
 .header {
   background-color: #212121;
   color: white;
@@ -81,51 +74,170 @@ html, body {
   width: calc(100% - 250px);
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: width 0.3s ease, left 0.3s ease;
+  left: 250px;
 }
 
-/* Chat Output */
+.sidebar.collapsed ~ .header {
+  width: 100%;
+  left: 0;
+}
+
+/* Chat Container */
 .chat-container {
   flex: 1;
   width: 100%;
   max-width: 800px;
   overflow-y: auto;
+  margin-bottom: 20px;
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.output-display {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 10px auto;
+/* AI Message Containers */
+.message-container {
+  display: flex;
   width: 100%;
-  max-width: 800px;
-  overflow-wrap: break-word;
+  box-sizing: border-box;
 }
 
-/* Input Box */
+.ai-message-container {
+  justify-content: flex-start;
+  padding-left: 20px;
+}
+
+/* Message Bubbles */
+.message {
+  max-width: calc(100% - 40px);
+  width: fit-content;
+  padding: 12px 16px;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  text-align: left;
+  line-height: 5; /* Increased line spacing */
+}
+
+.ai-message {
+  background-color: #f0f0f0;
+  color: black;
+  border-radius: 18px 18px 18px 4px;
+}
+
+/* Numbered Lists */
+.ai-message ol {
+  list-style-type: numbered; /* Changed to numbered */
+  padding-left: 2em;
+  margin: 1em 0;
+}
+
+.ai-message ol li {
+  margin-bottom: 0.8em;
+  line-height: 2;
+}
+
+/* Text Formatting */
+.ai-message p {
+  margin: 0.8em 0;
+  text-align: justify;
+}
+
+.ai-message strong {
+  font-weight: 600;
+  list-style-type: decimal; /* Changed to numbered */
+  display: list-item;
+  margin-left: 1.5em;
+  line-height: 2;
+}
+
+.ai-message em {
+  font-style: italic;
+}
+
+.ai-message code {
+  background: #e0e0e0;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  list-style-type: numbered; /* Changed to numbered */
+}
+
+/* Preformatted Code Block */
+.ai-message pre {
+  background: #f0f0f0;
+  padding: 12px;
+  border-radius: 6px;
+  line-height: 2;
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+/* Headers */
+.ai-message h1,
+.ai-message h2,
+.ai-message h3 {
+  list-style-type: Numbered; /* Changed to numbered */
+  font-weight: 650;
+  margin: 1.2em 0 0.8em 0;
+  line-height: 2;
+  color: #222;
+}
+
+.ai-message h1 {
+  font-size: 1.8em;
+  list-style-type: Numbered;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.4em;
+}
+
+.ai-message h2 {
+  font-size: 1.5em;
+  list-style-type: Numbered;
+}
+
+.ai-message h3 {
+  font-size: 1.3em;
+  list-style-type: Numbered;
+}
+
+/* Input Box with Collapse Support */
+.prompt-input-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  padding: 18px 20px;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+  transition: left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .prompt-input-container {
+  left: 0;
+}
+
 .prompt-input {
   display: flex;
   align-items: center;
-  background-color: #f5f5f5;
-  border-radius: 25px;
-  padding: 12px;
+  background-color: #E3E3E3;
+  border-radius: 28px;
+  padding: 12px 18px;
   width: 100%;
-  height: 20rem;
+  height: 7rem;
   max-width: 800px;
-  margin-bottom: 20px;
-  margin-top: 30rem;
+  min-height: 64px;
+  max-height: 150px;
+  transition: all 0.2s ease;
 }
 
-.attachment-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: gray;
-  margin-left: 10px;
-}
-
-.attachment-btn:hover {
-  color: #3498db;
+.prompt-input:focus-within {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
 .prompt-input input {
@@ -133,21 +245,177 @@ html, body {
   border: none;
   background: transparent;
   font-size: 16px;
-  padding: 10px;
-  margin-left: 20px;
+  padding: 8px 14px;
   outline: none;
   color: #333;
+  line-height: 1.5;
 }
 
+/* Attachment and Send Buttons */
+.attachment-btn,
 .send-btn {
   background: none;
   border: none;
-  font-size: 18px;
   cursor: pointer;
-  color: gray;
-  margin-right: 10px;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.send-btn:hover {
+.attachment-btn {
+  font-size: 20px;
+  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.send-btn {
+  font-size: 18px;
+  margin-left: 12px;
+  padding: 6px;
+  width: 24px;
+  height: 24px;
+}
+
+.send-btn:hover,
+.attachment-btn:hover {
   color: #3498db;
+  transform: scale(1.1);
+}
+
+.send-btn:disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    padding: 20px 15px;
+  }
+
+  .sidebar.collapsed ~ .main-content,
+  .sidebar.collapsed ~ .header,
+  .sidebar.collapsed ~ .prompt-input-container {
+    margin-left: 0;
+    width: 100%;
+    left: 0;
+  }
+
+  .main-content {
+    margin-left: 200px;
+    padding: 70px 15px 100px;
+  }
+
+  .header {
+    width: calc(100% - 200px);
+    padding: 12px;
+  }
+
+  .prompt-input-container {
+    left: 200px;
+    padding: 15px;
+  }
+
+  .message {
+    max-width: 90%;
+    padding: 14px 18px;
+  }
+
+  .sidebar-toggle {
+    left: 200px;
+  }
+
+  .sidebar.collapsed + .sidebar-toggle {
+    left: 0;
+  }
+}
+
+/* Auth Buttons */
+.auth-buttons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.auth-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #6366f1;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.auth-button:hover {
+  background-color: #4f46e5;
+  transform: translateY(-2px);
+}
+
+/* Auth Modals */
+.auth-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+/* Home Page */
+.home-page {
+  padding: 80px 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-section {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  color: #4b5563;
+}
+
+.features {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.feature-card h3 {
+  color: #6366f1;
+  margin-bottom: 15px;
 }

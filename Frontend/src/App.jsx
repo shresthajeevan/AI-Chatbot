@@ -3,6 +3,10 @@ import axios from 'axios';
 import Sidebar from './components/Sidebar';
 import PromptInput from './components/PromptInput';
 import OutputDisplay from './components/OutputDisplay';
+import Login from './components/Login';
+import SignUp from './components/Signup';
+import HomePage from './components/HomePage';
+
 import './styles/App.css';
 
 const App = () => {
@@ -10,11 +14,13 @@ const App = () => {
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignUp, setShowSignUp] = useState(false);
   const requestSource = useRef(null);
 
   // Handle submit request
   const handleSubmit = useCallback(async (query) => {
-    // Cancel previous request if exists
     if (requestSource.current) {
       requestSource.current.cancel('New request initiated');
     }
@@ -24,10 +30,9 @@ const App = () => {
     setError(null);
 
     try {
-      // Make the API request
       const response = await axios.post('http://localhost:5000/api/chat', { query }, {
         cancelToken: requestSource.current.token,
-        timeout: 15000,  // Timeout after 15 seconds
+        timeout: 15000,
       });
 
       const newResponse = response.data?.response || 'No response from server';
@@ -36,7 +41,6 @@ const App = () => {
       // Update history with the new query/response
       setHistory(prev => {
         const existingIndex = prev.findIndex(item => item.query === query);
-        
         if (existingIndex >= 0) {
           const updated = [...prev];
           updated[existingIndex] = { 
@@ -46,19 +50,13 @@ const App = () => {
           };
           return updated;
         }
-
         return [
           ...prev,
-          {
-            query,
-            response: newResponse,
-            timestamp: Date.now(),
-          },
+          { query, response: newResponse, timestamp: Date.now() },
         ].slice(-20);  // Keep the last 20 history items
       });
 
     } catch (err) {
-      // Handle error: Check if it's a cancellation error or any other error
       if (!axios.isCancel(err)) {
         const errorMessage = err.response?.data?.error?.message ||
                              err.response?.data?.error ||
@@ -69,7 +67,7 @@ const App = () => {
       }
     } finally {
       setIsLoading(false);
-      requestSource.current = null;  // Reset cancel token source
+      requestSource.current = null;
     }
   }, []);
 
@@ -77,47 +75,87 @@ const App = () => {
   const handleHistoryItemClick = useCallback((query) => {
     const historyItem = history.find(item => item.query === query);
     if (historyItem?.response) {
-      setOutput(historyItem.response);  // Display cached response
+      setOutput(historyItem.response);
     } else {
-      handleSubmit(query);  // Fetch the response if not in history
+      handleSubmit(query);
     }
   }, [history, handleSubmit]);
 
-  // Effect to clear error message after 5 seconds (optional)
+  // Effect to clear error message after 5 seconds
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(() => setError(null), 5000);  // Clear error after 5 seconds
-      return () => clearTimeout(timer);  // Cleanup timer on unmount
+      const timer = setTimeout(() => setError(null), 5000);
+      return () => clearTimeout(timer);
     }
   }, [error]);
 
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+    setShowLogin(false);
+    setShowSignUp(false);
+  };
+
   return (
     <div className="app">
-      <Sidebar 
-        history={history} 
-        onHistoryItemClick={handleHistoryItemClick} 
-        isLoading={isLoading} 
-      />
-      
-      <div className="main-content">
-        {error && (
-          <div className="error-banner">
-            {error}
-            <button onClick={() => setError(null)}>Dismiss</button>
+      {/* Always show auth buttons when not authenticated */}
+      {!isAuthenticated && (
+        <div className="auth-buttons">
+          <button onClick={() => setShowLogin(true)} className="auth-button">
+            Login
+          </button>
+          <button onClick={() => setShowSignUp(true)} className="auth-button">
+            Sign Up
+          </button>
+        </div>
+      )}
+
+      {isAuthenticated ? (
+        <>
+          <Sidebar history={history} onHistoryItemClick={handleHistoryItemClick} isLoading={isLoading} />
+          <div className="main-content">
+            {error && (
+              <div className="error-banner">
+                {error}
+                <button onClick={() => setError(null)}>Dismiss</button>
+              </div>
+            )}
+            <OutputDisplay output={output} isLoading={isLoading} />
+            <PromptInput onSubmit={handleSubmit} disabled={isLoading} />
           </div>
-        )}
-        
-        {/* Display a loading state in OutputDisplay */}
-        <OutputDisplay 
-          output={output} 
-          isLoading={isLoading} 
-        />
-        
-        <PromptInput 
-          onSubmit={handleSubmit} 
-          disabled={isLoading} 
-        />
-      </div>
+        </>
+      ) : (
+        <>
+          {/* Show HomePage by default */}
+          <HomePage />
+          
+          {/* Show auth modals when buttons are clicked */}
+          {showLogin && (
+            <div className="auth-modal">
+              <Login 
+                onLoginSuccess={handleAuthSuccess}
+                onSignUpClick={() => {
+                  setShowLogin(false);
+                  setShowSignUp(true);
+                }}
+                onClose={() => setShowLogin(false)}
+              />
+            </div>
+          )}
+          
+          {showSignUp && (
+            <div className="auth-modal">
+              <SignUp 
+                onSignUpSuccess={handleAuthSuccess}
+                onLoginClick={() => {
+                  setShowSignUp(false);
+                  setShowLogin(true);
+                }}
+                onClose={() => setShowSignUp(false)}
+              />
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
