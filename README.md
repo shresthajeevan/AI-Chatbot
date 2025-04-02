@@ -124,22 +124,23 @@ Once both the backend and frontend are running, you can access the app in your b
 
 ### Homepage
 
-![Login Page](frontend/images/homepage.png)
+![Homepage](Frontend/images/homepage.png)
 
 
 ### Login Page
 
-![Login Page](frontend/images/login.png)
+![Login Page](Frontend/images/login.png)
 
 
 ### Signup Page
 
-![Login Page](frontend/images/signup.png)
+![Signup Page](Frontend/images/signup.png)
+
 ---
 
 ### Chat Page
 
-![Login Page](frontend/images/Chat.png)
+![Chat Page](Frontend/images/chat.png)
 
 
 ---
@@ -153,8 +154,9 @@ If you encounter any issues during installation or running the project, make sur
 - All dependencies are correctly installed by running `npm install`.
 
  ### Author 
- Jeevan Shrestha
+ @Jeevan Shrestha
 
   ### Linkedin
  https://www.linkedin.com/in/jeevan-shrestha/
- 
+
+
