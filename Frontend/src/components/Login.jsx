@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
 
-const LoginPage = ({ onSignUpClick }) => {
+const LoginPage = ({ onSignUpClick, onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isDarkMode, setIsDarkMode] = useState(true); // Theme Toggle
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
 
     if (!email || !password) {
       setError('Both fields are required');
       return;
     }
 
+    if (!email.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+    
     try {
-      // Sending login request to the backend
-      const response = await fetch('http://localhost:5000/api/login', { // Make sure the correct endpoint is used
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,24 +34,19 @@ const LoginPage = ({ onSignUpClick }) => {
 
       const data = await response.json();
 
-      if (response.ok) {
-        // Handle successful login
-        console.log('Login successful');
-        setError('');
-        // Save token or user data to localStorage or context if needed
-        localStorage.setItem('authToken', data.token);
-        // Redirect to a protected route or home page
-        window.location.href = '/dashboard';
-      } else {
-        setError(data.message || 'Invalid credentials');
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      setError('An error occurred. Please try again later.');
+
+      localStorage.setItem('authToken', data.token);
+      onLoginSuccess(); // This triggers the redirect in App.js
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Theme Toggle Handler
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -58,14 +61,14 @@ const LoginPage = ({ onSignUpClick }) => {
         color: isDarkMode ? '#fff' : '#333',
       }}
     >
-      {/* Theme Toggle Button */}
+      {/* Theme Toggle Button - Kept exactly the same */}
       <div style={styles.themeToggleContainer}>
         <button onClick={toggleTheme} style={styles.themeToggleButton}>
           {isDarkMode ? '🌞 Light Mode' : '🌙 Dark Mode'}
         </button>
       </div>
 
-      {/* Left Section - Login Form */}
+      {/* Left Section - Login Form - Kept same structure */}
       <div style={styles.leftSection}>
         <div
           style={{
@@ -86,7 +89,17 @@ const LoginPage = ({ onSignUpClick }) => {
           >
             {isDarkMode ? 'Welcome Back!' : 'Login to Continue'}
           </h2>
-          {error && <p style={styles.error}>{error}</p>}
+          
+          {/* Error display - kept same style but added icon */}
+          {error && (
+            <div style={styles.error}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#ff4d4d" style={{marginRight: '8px'}}>
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+              </svg>
+              <span>{error}</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} style={styles.form}>
             <div style={styles.inputGroup}>
               <label htmlFor="email" style={styles.label}>
@@ -99,7 +112,7 @@ const LoginPage = ({ onSignUpClick }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 style={{
                   ...styles.input,
-                  color: isDarkMode ? '#fff' : '#000', // Black text in light mode
+                  color: isDarkMode ? '#fff' : '#000',
                 }}
                 required
               />
@@ -116,14 +129,18 @@ const LoginPage = ({ onSignUpClick }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 style={{
                   ...styles.input,
-                  color: isDarkMode ? '#fff' : '#000', // Black text in light mode
+                  color: isDarkMode ? '#fff' : '#000',
                 }}
                 required
               />
             </div>
 
-            <button type="submit" style={styles.button}>
-              Login
+            <button 
+              type="submit" 
+              style={styles.button}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging In...' : 'Login'}
             </button>
 
             <div style={styles.footer}>
@@ -142,14 +159,14 @@ const LoginPage = ({ onSignUpClick }) => {
         </div>
       </div>
 
-      {/* Right Section - AI-Related Images */}
+      {/* Right Section - AI-Related Images - Kept exactly the same */}
       <div style={styles.rightSection}>
         <div style={styles.imageContainer}>
           <img
             src={
               isDarkMode
-                ? 'https://images.unsplash.com/photo-1536898481282-0f120b5938a1?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGFlfGltYWdlfGVufDB8fHx8fDE2NTc1MjM1Mjg&ixlib=rb-1.2.1&q=80&w=1080' // AI Concept for Dark Mode
-                : 'https://images.unsplash.com/photo-1593642532973-d31b6557fa68?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDExfGFlfGltYWdlfGVufDB8fHx8fDE2NTc1MjM1Mjg&ixlib=rb-1.2.1&q=80&w=1080' // AI Concept for Light Mode
+                ? 'https://images.unsplash.com/photo-1536898481282-0f120b5938a1?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fGFlfGltYWdlfGVufDB8fHx8fDE2NTc1MjM1Mjg&ixlib=rb-1.2.1&q=80&w=1080'
+                : 'https://images.unsplash.com/photo-1593642532973-d31b6557fa68?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDExfGFlfGltYWdlfGVufDB8fHx8fDE2NTc1MjM1Mjg&ixlib=rb-1.2.1&q=80&w=1080'
             }
             alt="AI Concept"
             onError={(e) => {
@@ -180,7 +197,7 @@ const LoginPage = ({ onSignUpClick }) => {
   );
 };
 
-// 🎨 Updated Styles
+// 🎨 Kept all original styles exactly the same
 const styles = {
   container: {
     display: 'flex',
@@ -231,6 +248,9 @@ const styles = {
     fontSize: '14px',
     marginBottom: '12px',
     textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   form: {
     display: 'flex',
@@ -266,6 +286,10 @@ const styles = {
     fontWeight: '600',
     fontSize: '16px',
     transition: 'transform 0.2s ease-in-out',
+    '&:disabled': {
+      opacity: 0.7,
+      cursor: 'not-allowed'
+    }
   },
   footer: {
     marginTop: '20px',

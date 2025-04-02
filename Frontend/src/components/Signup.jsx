@@ -65,7 +65,7 @@ const SignUpPage = ({ onLoginClick, onSignUpSuccess }) => {
   const themeStyles = {
     container: {
       background: isDarkMode
-        ? 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)'
+        ? 'linear-gradient(135deg, #1f1c3d, #302b63, #24243e)'
         : 'linear-gradient(135deg, #a1c4fd, #c2e9fb)',
       color: isDarkMode ? '#fff' : '#333',
     },
@@ -162,28 +162,13 @@ const SignUpPage = ({ onLoginClick, onSignUpSuccess }) => {
         </div>
       </div>
 
-      {/* Image Section */}
+      {/* Text Section */}
       <div style={styles.rightSection}>
-        <div style={styles.imageContainer}>
-          <img
-            src={
-              isDarkMode
-                ? 'https://images.unsplash.com/photo-1677442135136-760c813a743e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80'
-                : 'https://images.unsplash.com/photo-1677442135136-760c813a743e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1280&q=80'
-            }
-            alt="AI Concept"
-            style={styles.image}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = 'https://via.placeholder.com/600x400?text=AI+Concept';
-            }}
-          />
-        </div>
         <div style={styles.textContainer}>
-          <h3 style={{ ...styles.textTitle, color: isDarkMode ? '#9f86c0' : '#007bff' }}>
+          <h3 style={{ ...styles.textTitle, color: isDarkMode ? '#9f86c0' : '#007bff', fontSize: '36px', marginLeft: '-20px' }}>
             {isDarkMode ? 'Revolutionize the Future' : 'AI is the Future'}
           </h3>
-          <p style={{ ...styles.textDescription, color: isDarkMode ? '#ccc' : '#555' }}>
+          <p style={{ ...styles.textDescription, color: isDarkMode ? '#ccc' : '#555', fontSize: '18px' }}>
             {isDarkMode
               ? 'Explore the limitless possibilities of artificial intelligence. Join us.'
               : 'Discover the potential of AI. Shape the future today.'}
@@ -227,6 +212,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     padding: '20px',
+    marginLeft: '-90px',  // Shifting the card left
   },
   glassCard: {
     width: '100%',
@@ -261,34 +247,31 @@ const styles = {
   inputGroup: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '8px',
   },
   label: {
     fontSize: '14px',
     fontWeight: '500',
+    marginBottom: '8px',
   },
   input: {
-    padding: '14px',
+    padding: '12px',
     borderRadius: '8px',
-    border: '1px solid',
+    border: 'none',
     fontSize: '16px',
-    outline: 'none',
-    transition: 'all 0.3s ease',
   },
   button: {
     padding: '14px',
-    backgroundColor: '#9f86c0',
+    backgroundColor: '#007bff',
     color: '#fff',
     border: 'none',
     borderRadius: '8px',
-    cursor: 'pointer',
     fontSize: '16px',
-    fontWeight: '600',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
   },
   spinner: {
+    marginRight: '10px',
     animation: 'spin 1s linear infinite',
   },
   footer: {
@@ -299,43 +282,32 @@ const styles = {
     fontSize: '14px',
   },
   linkButton: {
-    backgroundColor: 'transparent',
+    color: '#007bff',
+    background: 'none',
     border: 'none',
-    color: '#9f86c0',
     cursor: 'pointer',
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   rightSection: {
-    flex: 1,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '20px',
   },
-  imageContainer: {
-    width: '100%',
-    maxWidth: '500px',
-    overflow: 'hidden',
-    borderRadius: '20px',
-  },
-  image: {
-    width: '100%',
-    objectFit: 'cover',
-    height: '100%',
-    borderRadius: '20px',
-  },
   textContainer: {
-    textAlign: 'center',
     marginTop: '20px',
+    textAlign: 'center',
   },
   textTitle: {
-    fontSize: '1.5rem',
-    fontWeight: '600',
-    marginBottom: '10px',
+    fontSize: '36px', // Increased font size
+    fontWeight: '700',
+    marginBottom: '15px',
+    marginLeft: '-20px',  // Shift text left
   },
   textDescription: {
-    fontSize: '1rem',
-    color: '#555',
+    fontSize: '18px', // Increased font size
+    fontWeight: '400',
+    color: '#999',
   },
 };
 

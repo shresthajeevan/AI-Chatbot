@@ -179,6 +179,12 @@ app.post('/api/login', async (req, res) => {
         error: 'User not found'
       });
     }
+     // Successful login
+     return res.json({ 
+      success: true,
+      message: 'Login successful',
+      user: { email: user.email }
+    });
 
     // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);

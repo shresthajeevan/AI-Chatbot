@@ -1,70 +1,156 @@
-# Getting Started with Create React App
+# Project Name: **[AI CHatbot]**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- **User Authentication**: Secure sign-up and login functionality.
+- **Real-time Chat**: Users can send and receive messages in real-time.
+- **Gemini API Integration**: Fetch cryptocurrency data using the Gemini API.
+- **Frontend**: Built with React for a responsive and dynamic UI.
+- **Backend**: Node.js and Express server managing requests and authentication.
+- **Database**: MongoDB for user and chat message storage.
+- **Axios**: Used for making API calls to retrieve live cryptocurrency data.
+- **Deployment**: Designed for seamless deployment across devices.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Installation](#installation)
+- [Dependencies](#dependencies)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+- [License](#license)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+### 1. Clone the repository
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To get started, first clone this repository to your local machine using Git:
 
-### `npm run build`
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Navigate to the project directory
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cd your-repo-name
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3. Install Dependencies
 
-### `npm run eject`
+#### Backend:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+In the root directory of the project, install the necessary backend dependencies. This includes libraries like Axios (for API requests), MongoDB (for database), and any other packages you may need.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm install axios mongoose dotenv express cors
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Frontend:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+If your project has a frontend (e.g., React), go into the frontend directory and run:
 
-## Learn More
+```bash
+cd client
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Set up MongoDB
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Install MongoDB on your local device or use MongoDB Atlas (cloud database).
+   
+   - [MongoDB Installation Guide](https://docs.mongodb.com/manual/installation/)
 
-### Code Splitting
+2. Create a `.env` file in your root directory to store sensitive credentials such as your MongoDB URI.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Example of `.env` file:
 
-### Analyzing the Bundle Size
+```plaintext
+MONGO_URI=mongodb://localhost:27017/yourDatabase
+PORT=5000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### Install Axios
 
-### Making a Progressive Web App
+Axios is a promise-based HTTP client for making requests to external APIs.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Install it by running the following command:
 
-### Advanced Configuration
+```bash
+npm install axios
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Gemini API (if used in your project):
 
-### Deployment
+If you're integrating with the Gemini API, make sure you have registered for access and obtained your API keys. Add these to your `.env` file:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```plaintext
+GEMINI_API_KEY=your-gemini-api-key
+GEMINI_SECRET_KEY=your-gemini-secret-key
+```
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Usage
+
+### 1. Start the Backend Server
+
+To start the backend server, use the following command:
+
+```bash
+npm start
+```
+
+This will start the server on the specified port (e.g., `http://localhost:5000`).
+
+### 2. Start the Frontend Application
+
+To start the frontend, navigate to the frontend directory and run:
+
+```bash
+npm start
+```
+
+This will start the React development server (e.g., `http://localhost:3000`).
+
+### 3. Visit Your Application
+
+Once both the backend and frontend are running, you can access the app in your browser by navigating to `http://localhost:3000`.
+
+---
+
+## Screenshots
+
+### Homepage
+
+![Login Page](frontend/images/homepage.png)
+
+
+### Login Page
+
+![Login Page](frontend/images/login.png)
+
+
+### Signup Page
+
+![Login Page](frontend/images/signup.png)
+---
+
+### Chat Page
+
+![Login Page](frontend/images/Chat.png)
+
+
+---
+
+## Troubleshooting
+
+If you encounter any issues during installation or running the project, make sure:
+
+- You have MongoDB installed or you're connected to MongoDB Atlas.
+- Your `.env` file contains the correct credentials for MongoDB and Gemini API (if applicable).
+- All dependencies are correctly installed by running `npm install`.
+
+ ### Author 
+ Jeevan Shrestha
