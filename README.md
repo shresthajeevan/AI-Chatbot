@@ -154,3 +154,7 @@ If you encounter any issues during installation or running the project, make sur
 
  ### Author 
  Jeevan Shrestha
+
+  ### Linkedin
+ https://www.linkedin.com/in/jeevan-shrestha/
+ 
