@@ -140,7 +140,7 @@ Once both the backend and frontend are running, you can access the app in your b
 
 ### Chat Page
 
-![Chat Page](Frontend/images/chat.png)
+![Chat Page](Frontend/images/Chat.png)
 
 
 ---
